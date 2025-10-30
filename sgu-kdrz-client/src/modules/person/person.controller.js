@@ -1,7 +1,10 @@
 const PersonController = {};
 const ENV = import.meta.env;
 
-const API_URL = `http://${ENV.VITE_API_HOST}:${ENV.VITE_API_PORT}${ENV.VITE_API_BASE}`;
+// En producción (Docker), usar rutas relativas. En desarrollo, usar variables de entorno
+const API_URL = ENV.MODE === 'production' 
+    ? `${ENV.VITE_API_BASE || '/sgu-api'}/api` 
+    : `http://${ENV.VITE_API_HOST || 'localhost'}:${ENV.VITE_API_PORT || '8081'}${ENV.VITE_API_BASE || '/sgu-api'}/api`;
 
 /**
  * Obtener todas las personas

@@ -6,7 +6,7 @@ pipeline {
         stage('Parando los servicios...') {
             steps {
                 bat '''
-                    docker compose -p AD_JENKINS_10B down || exit /b 0
+                    docker compose -p SGU-KDRZ-10B down || exit /b 0
                 '''
             }
         }
@@ -15,7 +15,7 @@ pipeline {
         stage('Eliminando imágenes anteriores...') {
             steps {
                 bat '''
-                    for /f "tokens=*" %%i in ('docker images --filter "label=com.docker.compose.project=AD_JENKINS_10B" -q') do (
+                    for /f "tokens=*" %%i in ('docker images --filter "label=com.docker.compose.project=SGU-KDRZ-10B" -q') do (
                         docker rmi -f %%i
                     )
                     if errorlevel 1 (

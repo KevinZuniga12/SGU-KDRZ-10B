@@ -14,27 +14,10 @@ services:
       - sgu-net
     restart: unless-stopped
 
-  frontend:
-    image: client:latest
-    build: 
-      context: ./client
-      args:
-        API_HOST: localhost
-        API_PORT: 8081
-        API_BASE: /sgu-api
-    container_name: sgu-frontend
-    ports:
-      - "3000:80"
-    networks:
-      - sgu-net
-    restart: unless-stopped
-    depends_on:
-      - database
-
   backend:
     image: server:latest
     build:
-      context: ./server
+      context: ./sgu-kdzr-server   
     container_name: sgu-backend
     environment:
       SERVER_PORT: 8080
@@ -48,12 +31,25 @@ services:
     networks:
       - sgu-net
     depends_on:
-      - frontend
+      - database
+    restart: unless-stopped
+
+  frontend:
+    image: client:latest
+    build:
+      context: ./sgu-kdrz-client
+    container_name: sgu-frontend
+    ports:
+      - "3000:80"
+    networks:
+      - sgu-net
+    restart: unless-stopped
+    depends_on:
+      - backend
 
 volumes:
-  adj-volume:
-    external: true
+  sgu-volume:
 
 networks:
-  adj-net:
-    external: true
+  sgu-net:
+    driver: bridge
